@@ -55,7 +55,7 @@ class FirstFragment : Fragment() {
         for (x in 1..50) {
             data.add(x.toString())
         }
-        binding.recycler.layoutManager = LinearLayoutManager(requireContext()).apply {
+        binding.recycler.layoutManager = MyLinearLayoutManager(requireContext()).apply {
             recycleChildrenOnDetach = true
         }
         binding.recycler.adapter = RAdapter(data)
@@ -90,6 +90,13 @@ class FirstFragment : Fragment() {
 
         override fun getItemCount(): Int {
             return data.size
+        }
+    }
+    
+    class MyLinearLayoutManager(context: Context) : LinearLayoutManager(context) {
+        override fun onDetachedFromWindow(view: RecyclerView?, recycler: RecyclerView.Recycler?) {
+            super.onDetachedFromWindow(view, recycler)
+            Log.d("eeeeee", "This gets called as soon as the transition starts")
         }
     }
 }
