@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.transition.Hold
 import com.google.android.material.transition.MaterialContainerTransform
 
 class RootFragment : Fragment() {
@@ -23,10 +24,14 @@ class RootFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        navigate(FirstFragment())
+        navigate(this, FirstFragment())
     }
 
-    fun navigate(newFragment: Fragment, sharedElements: List<Pair<View, String>> = emptyList()) {
+    fun pop() {
+        childFragmentManager.popBackStack()
+    }
+
+    fun navigate(source: Fragment, newFragment: Fragment, sharedElements: List<Pair<View, String>> = emptyList()) {
         val fragmentTag = newFragment::class.java.simpleName
 
         val transaction = childFragmentManager
@@ -45,6 +50,18 @@ class RootFragment : Fragment() {
             }
             newFragment.sharedElementEnterTransition = transition
             newFragment.sharedElementReturnTransition = transition
+
+            source.exitTransition = Hold().apply {
+                duration = 1000L
+            }
+        } else {
+            transaction.setCustomAnimations(
+                R.anim.slide_in,
+                R.anim.slide_out,
+                R.anim.slide_in_pop_enter,
+                R.anim.slide_out_pop_exit
+            )
+            source.exitTransition = null
         }
 
         transaction

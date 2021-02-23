@@ -3,25 +3,25 @@ package com.example.materialcontainertransformplayground
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import androidx.annotation.RequiresApi
-import androidx.navigation.fragment.findNavController
+import androidx.fragment.app.Fragment
+import com.example.materialcontainertransformplayground.databinding.FragmentSecondBinding
 
-/**
- * A simple [Fragment] subclass as the second destination in the navigation.
- */
 class SecondFragment : Fragment() {
+
+    private var _binding: FragmentSecondBinding? = null
+    private val binding: FragmentSecondBinding
+        get() = checkNotNull(_binding)
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_second, container, false)
+        _binding = FragmentSecondBinding.inflate(inflater)
+        return binding.root
     }
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
@@ -30,5 +30,13 @@ class SecondFragment : Fragment() {
         Log.d("eeeeeee", "onViewCreated")
 
         view.transitionName = "shared_element_button"
+
+        binding.buttonSecond.setOnClickListener {
+            (parentFragment as RootFragment).pop()
+            (parentFragment as RootFragment).navigate(
+                this,
+                ThirdFragment()
+            )
+        }
     }
 }

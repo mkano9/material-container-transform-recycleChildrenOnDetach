@@ -1,6 +1,7 @@
 package com.example.materialcontainertransformplayground
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -17,11 +18,7 @@ import com.example.materialcontainertransformplayground.R.id.recycler
 import com.example.materialcontainertransformplayground.databinding.FragmentFirstBinding
 import com.google.android.material.transition.Hold
 
-/**
- * A simple [Fragment] subclass as the default destination in the navigation.
- */
 class FirstFragment : Fragment() {
-
 
     private var _binding: FragmentFirstBinding? = null
     private val binding: FragmentFirstBinding
@@ -39,15 +36,18 @@ class FirstFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        exitTransition = Hold().apply {
-            duration = 1000L
-        }
-
         binding.buttonFirst.transitionName = "shared_element_button"
         binding.buttonFirst.setOnClickListener {
             (parentFragment as RootFragment).navigate(
+                this,
                 SecondFragment(),
                 sharedElements = listOf(Pair(binding.buttonFirst, binding.buttonFirst.transitionName))
+            )
+        }
+        binding.buttonThird.setOnClickListener {
+            (parentFragment as RootFragment).navigate(
+                this,
+                ThirdFragment()
             )
         }
 
@@ -55,9 +55,7 @@ class FirstFragment : Fragment() {
         for (x in 1..50) {
             data.add(x.toString())
         }
-        binding.recycler.layoutManager = LinearLayoutManager(requireContext()).apply {
-            recycleChildrenOnDetach = true
-        }
+        binding.recycler.layoutManager = LinearLayoutManager(requireContext())
         binding.recycler.adapter = RAdapter(data)
     }
 
