@@ -1,11 +1,8 @@
 package com.example.materialcontainertransformplayground
 
 import android.os.Bundle
-import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
-import android.view.Menu
-import android.view.MenuItem
+import androidx.fragment.app.Fragment
 
 class MainActivity : AppCompatActivity() {
 
@@ -15,12 +12,28 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(findViewById(R.id.toolbar))
 
         if (savedInstanceState == null) {
-            val fragment = RootFragment()
-            supportFragmentManager
-                .beginTransaction()
-                .setPrimaryNavigationFragment(fragment)
-                .add(R.id.nav_host_fragment, fragment)
-                .commitAllowingStateLoss()
+            navigate(FirstFragment())
         }
+    }
+
+    fun pop() {
+        supportFragmentManager.popBackStack()
+    }
+
+    fun navigate(newFragment: Fragment) {
+        val fragmentTag = newFragment::class.java.simpleName
+
+        supportFragmentManager
+            .beginTransaction()
+            .addToBackStack(fragmentTag)
+            .setCustomAnimations(
+                R.anim.slide_in,
+                R.anim.slide_out,
+                R.anim.slide_in_pop_enter,
+                R.anim.slide_out_pop_exit
+            )
+            .replace(R.id.nav_host_fragment, newFragment, fragmentTag)
+            .setReorderingAllowed(true)
+            .commitAllowingStateLoss()
     }
 }
