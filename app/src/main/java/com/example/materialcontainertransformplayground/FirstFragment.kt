@@ -28,7 +28,6 @@ class FirstFragment : Fragment() {
 
         binding.buttonFirst.setOnClickListener {
             (requireActivity() as MainActivity).run {
-                pop()
                 navigate(SecondFragment())
             }
         }

@@ -1,5 +1,6 @@
 package com.example.materialcontainertransformplayground
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -12,7 +13,7 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(findViewById(R.id.toolbar))
 
         if (savedInstanceState == null) {
-            navigate(FirstFragment())
+            navigate(RootFragment())
         }
     }
 
@@ -35,5 +36,10 @@ class MainActivity : AppCompatActivity() {
             .replace(R.id.nav_host_fragment, newFragment, fragmentTag)
             .setReorderingAllowed(true)
             .commitAllowingStateLoss()
+    }
+
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        navigate(SecondFragment())
     }
 }
