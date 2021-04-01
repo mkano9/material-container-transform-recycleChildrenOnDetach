@@ -27,11 +27,6 @@ class FirstFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.buttonFirst.setOnClickListener {
-            /*(requireActivity() as MainActivity).run {
-                pop()
-                navigate(SecondFragment())
-            }*/
-
             val f = MyBottomSheetDialog()
             f.show(childFragmentManager, "fff")
         }
